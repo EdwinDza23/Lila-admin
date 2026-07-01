@@ -4449,14 +4449,14 @@
       if (!tbody) return;
       tbody.innerHTML = DEPARTMENTS.map(d => {
         const enabledModels = d.models.filter(m => m.enabled);
-        const modelBadges = enabledModels.map(m => `<span class="model-badge ${m.type}" style="margin:1px;">${m.name}</span>`).join('');
+        const modelBadges = enabledModels.map(m => `<span class="user-model-badge ${m.type}">${m.name}</span>`).join('');
         const totalBudget = enabledModels.reduce((sum, m) => sum + m.monthly.budget, 0);
         return `
       <tr>
         <td><div style="font-weight:600;">${d.name}</div></td>
         <td><code style="background:var(--gray-bg);padding:4px;border-radius:4px;font-size:11px;">${d.code}</code></td>
         <td>${d.users}</td>
-        <td>${modelBadges || '<span class="text-muted text-sm">None</span>'}</td>
+        <td><div class="user-model-badges">${modelBadges || '<span class="text-muted text-sm">&mdash;</span>'}</div></td>
         <td>${fmtBudget(totalBudget)}/mo</td>
         <td><span class="pill pill-green">Active</span></td>
         <td>
