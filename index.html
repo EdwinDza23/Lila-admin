@@ -4948,16 +4948,18 @@
       }
 
       else if (type === 'user-detail') {
-        const dept = DEPARTMENTS.find(d => d.id === id);
+        const user = USERS.find(u => u.id === id);
+        if (!user) return;
+        const dept = DEPARTMENTS.find(d => d.name === user.dept);
         if (!dept) return;
         _editDept = deepClone(dept);
         _editUsers = deepClone(getDeptUsers(dept.name));
         _deptAllocPeriod = 'monthly';
 
-        title.textContent = dept.name;
-        subtitle.textContent = dept.users + ' members &middot; ' + dept.costCenter + ' &middot; ' + dept.models.filter(m => m.enabled).length + ' of 6 models active';
+        title.textContent = user.name;
+        subtitle.textContent = `${user.role} · ${dept.name}`;
 
-        const modelCardsHtml = _editDept.models.map(m => buildAllocModelCard(m, id)).join('');
+        const modelCardsHtml = _editDept.models.map(m => buildAllocModelCard(m, dept.id)).join('');
 
         const usageControlsHtml = `
       <div class="section-block">
@@ -4989,16 +4991,16 @@
         body.innerHTML = `
       <div class="tabs" style="margin-bottom:16px;" id="dept-alloc-tabs">
         <button class="tab active" onclick="switchAllocTab(this,'model-alloc')">AI Model Allocation</button>
-        <button class="tab" onclick="switchAllocTab(this,'users')">Users</button>
+        <!-- <button class="tab" onclick="switchAllocTab(this,'users')">Users</button> -->
         <button class="tab" onclick="switchAllocTab(this,'usage-controls')">Usage Controls</button>
       </div>
       <div data-alloctab="model-alloc">
         
         ${modelCardsHtml}
       </div>
-      <div data-alloctab="users" style="display:none;">
+      <!-- <div data-alloctab="users" style="display:none;">
         ${buildUsersTab(id)}
-      </div>
+      </div> -->
       <div data-alloctab="usage-controls" style="display:none;">
         ${usageControlsHtml}
       </div>`;
