@@ -1454,7 +1454,7 @@
     .drawer-body {
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 8px;
     }
 
     .drawer-body::-webkit-scrollbar {
@@ -3958,7 +3958,7 @@
         <td>
           <div style="display:flex;gap:4px;justify-content:flex-end;align-items:center;">
             <button class="icon-btn icon-btn-sm" type="button" title="Edit department" aria-label="Edit ${d.name}"
-              onclick="openDrawer('dept-allocate','${d.id}')">
+              onclick="event.stopPropagation();openDrawer('dept-allocate','${d.id}')">
               <svg class="icon icon-sm" viewBox="0 0 24 24">
                 <path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />
                 <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z" />
@@ -4008,7 +4008,7 @@
         <td>
           <div style="display:flex;gap:4px;align-items:center;">
             <button class="icon-btn icon-btn-sm" type="button" title="Edit user" aria-label="Edit ${u.name}"
-              onclick="openDrawer('user-detail',${u.id})">
+              onclick="event.stopPropagation();openDrawer('user-detail',${u.id})">
               <svg class="icon icon-sm" viewBox="0 0 24 24">
                 <path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />
                 <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5Z" />
@@ -4758,7 +4758,7 @@
       const subtitle = document.getElementById('manage-panel-subtitle');
       const body = document.getElementById('manage-panel-body');
       if (title) title.textContent = user.name;
-      if (subtitle) subtitle.textContent = user.role + ' &middot; ' + period.charAt(0).toUpperCase() + period.slice(1) + ' Allocation';
+      if (subtitle) subtitle.textContent = user.role + ' · ' + period.charAt(0).toUpperCase() + period.slice(1) + ' Allocation';
       if (!body) return;
 
       const modelsHtml = buildModelAllocList(deptId, userId, period);
@@ -4898,7 +4898,7 @@
         _deptAllocPeriod = 'monthly';
 
         title.textContent = dept.name;
-        subtitle.textContent = dept.users + ' members &middot; ' + dept.costCenter + ' &middot; ' + dept.models.filter(m => m.enabled).length + ' of 6 models active';
+        subtitle.textContent = dept.users + ' members · ' + dept.costCenter + ' · ' + dept.models.filter(m => m.enabled).length + ' of 6 models active';
 
         const modelCardsHtml = _editDept.models.map(m => buildAllocModelCard(m, id)).join('');
 
@@ -5119,7 +5119,7 @@
         const m = AI_MODELS.find(x => x.id === id);
         if (!m) return;
         title.textContent = m.name;
-        subtitle.textContent = m.provider + ' &middot; ' + m.depts.length + ' departments enabled';
+        subtitle.textContent = m.provider + ' · ' + m.depts.length + ' departments enabled';
         body.innerHTML = `
       <div class="section-block">
         <div class="section-block-title">Model Details</div>
@@ -5151,7 +5151,7 @@
         const s = SOURCES.find(x => x.name === id);
         if (!s) return;
         title.textContent = s.name;
-        subtitle.textContent = s.type + ' &middot; last synced ' + s.sync;
+        subtitle.textContent = s.type + ' · last synced ' + s.sync;
         body.innerHTML = `
       <div class="section-block">
         <div class="section-block-title">Source Details</div>
@@ -5184,7 +5184,7 @@
         const stageClass = { approved: 'pill-green', review: 'pill-amber', draft: 'pill-gray', archived: 'pill-purple', expired: 'pill-red' };
         const stageText = { approved: 'Approved', review: 'Under Review', draft: 'Draft', archived: 'Archived', expired: 'Expired' };
         title.textContent = doc.name;
-        subtitle.textContent = doc.dept + ' &middot; updated ' + doc.updated;
+        subtitle.textContent = doc.dept + ' · updated ' + doc.updated;
         body.innerHTML = `
       <div class="section-block">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
